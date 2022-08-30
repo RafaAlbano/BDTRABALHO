@@ -1,0 +1,106 @@
+Active: 1661859491233@@127.0.0.1@3306@Alison_Davy_ONG
+
+CREATE TABLE `tipo_usuario` (
+    cod_tipuser int auto_increment PRIMARY KEY,
+    desc_tipuser varchar(250) not null
+);
+
+insert INTO `tipo_usuario` (desc_tipuser) values 
+("cliente"), 
+("proprietario"), 
+("colaborador");
+
+CREATE TABLE midia (
+titulo_midia varchar(100) not null,
+caminho_midia varchar(250) not null,
+cod_midia int auto_increment PRIMARY KEY,
+cod_postagem int
+);
+
+CREATE TABLE `ong` (
+    email_ong varchar(250) not null unique,
+    telefone_ong varchar(14) not null unique,
+    nome_ong varchar(100) not null unique,
+    cod_ong int auto_increment PRIMARY KEY
+);
+
+insert INTO `ong` (email_ong, telefone_ong, nome_ong) VALUES 
+("charki2664@uorak.com", "(16) 2882-7305", "tamar"), 
+("kelli8623@uorak.com", "(93) 2251-8424", "rappy"), 
+("rebeca8161@uorak.com", "(64) 3196-2581", "APAE"), 
+("chantell1822@uorak.com", "(43) 3264-6408", "Vaga Lume"),
+("jafet1287@uorak.com", "(84) 2653-3546", "APABB"),
+("nabeela6509@uorak.com", "(67) 2841-8427", "Bombeiros"),
+("estefana5773@uorak.com", "(98) 2434-0588", "Casa Azul"),
+("kay6389@uorak.com", "(18) 2578-0275", "CIEDS"),
+("hodaifa8455@uorak.com", "(96) 2338-6249", "ADEFIP"),
+("hadiya5634@uorak.com", "(96) 2199-2864", "Casa do Zezinho");
+
+CREATE TABLE `usuario` (
+    idade int not null,
+    nome varchar(250) not null,
+    email varchar(250) not null unique,
+    cod_usuario int auto_increment PRIMARY KEY,
+    telefone varchar(14) not null unique,
+    cod_tipuser int,
+    FOREIGN KEY(cod_tipuser) REFERENCES tipo_usuario (cod_tipuser)
+);
+
+insert INTO `usuario` (idade, nome, email, telefone, cod_tipuser) values 
+(18, "Aegmiadan", "ziara2905@uorak.com", "(69) 3530-1726", 2),
+(18, "Kaedehara Kazuha", "kazuha16@genshin.com", "(68) 2675-6735", 3),
+(40, "Beelzebul", "shogun raiden@genshin.com", "(97) 3463-5637", 2),
+(23, "Eula Lawrence", "", "", ),
+(52, "", "", "", ),
+(54, "", "", "", ),
+(35, "", "", "", ),
+(75, "", "", "", ),
+(24, "", "", "", ),
+(21, "", "", "", );
+
+CREATE TABLE postagem (
+titulo_postagem varchar(100) not null,
+categoria varchar(100) not null,
+cod_postagem int auto_increment PRIMARY KEY,
+texto_postagem varchar(1000) not null,
+cod_usuario int,
+cod_ong int,
+FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario),
+FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong)
+);
+
+CREATE TABLE comenta (
+cod_postagem int,
+cod_usuario int,
+dathora_coment timestamp not null,
+texto_coment varchar(250) not null,
+FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem),
+FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+);
+
+CREATE TABLE curtir (
+cod_postagem int,
+cod_usuario int,
+dathora_curtir timestamp not null,
+FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem),
+FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+);
+
+CREATE TABLE doacao (
+cod_ong int,
+cod_usuario int,
+dt_doacao date not null,
+valor_doacao decimal(10,2) not null,
+FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong),
+FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+);
+
+CREATE TABLE voluntario (
+cod_ong int,
+cod_usuario int,
+dt_voluntario date not null,
+FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong),
+FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+);
+
+ALTER TABLE midia ADD FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem);
