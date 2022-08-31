@@ -1,4 +1,4 @@
--- Active: 1657905411276@@127.0.0.1@3306@Davy_Alison
+-- Active: 1661964820538@@127.0.0.1@3306@Davy_Alison
 
 CREATE TABLE `tipo_usuario` (
     cod_tipuser int auto_increment PRIMARY KEY,
@@ -11,11 +11,23 @@ insert INTO `tipo_usuario` (desc_tipuser) values
 ("colaborador");
 
 CREATE TABLE `midia` (
-titulo_midia varchar(100) not null,
-caminho_midia varchar(250) not null,
-cod_midia int auto_increment PRIMARY KEY,
-cod_postagem int
+    titulo_midia varchar(100) not null,
+    caminho_midia varchar(250) not null,
+    cod_midia int auto_increment PRIMARY KEY,
+    cod_postagem int
 );
+
+INSERT INTO `midia` (titulo_midia,caminho_midia,cod_postagem) VALUES
+("velho","server/banco/fotos.jpg",1),
+("criança","server/banco/fotos.jpg",,4),
+("alimento","server/banco/fotos.jpg",,5),
+("animais","server/banco/fotos.jpg",,2),
+("tartaruga ninja","server/banco/fotos.jpg",3),
+("foto da 2info3","server/banco/fotos.jpg",7),
+("curso","server/banco/fotos.jpg",6),
+("morador de rua","server/banco/fotos.jpg",9),
+("vila do chaves","server/banco/fotos.jpg",8),
+("passaro","server/banco/fotos.jpg",10);
 
 CREATE TABLE `ong` (
     email_ong varchar(250) not null unique,
@@ -81,7 +93,7 @@ INSERT INTO `postagem` (titulo_postagem, categoria,     texto_postagem, cod_usua
 ("legal","doação","vou contribuir em mais ongs",8,5),
 ("criança esperança","doação","ajude crianças com câncer",4,10);
 
-CREATE TABLE comenta (
+CREATE TABLE `comenta` (
     cod_postagem int,
     cod_usuario int,
     dathora_coment timestamp not null,
@@ -90,7 +102,20 @@ CREATE TABLE comenta (
     FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
 );
 
-CREATE TABLE curtir (
+INSERT INTO `comenta`(cod_postagem,cod_usuario,dathora_coment,texto_coment) VALUES
+(2,8,'2022-10-28 12:45:31',"bom"),
+(3,5,'2022-04-19 00:00:00',"legal"),
+(1,10,'2022-01-29 17:24:38',"ajudo muito"),
+(5,9,'2022-05-31 05:52:32',"adorei"),
+(7,6,'2022-05-26 06:25:56',"gente fina"),
+(8,7,'2022-06-10 15:31:48',"vou doar"),
+(9,1,'2022-11-04 11:08:25',"sera verdade?"),
+(10,4,'2022-09-28 02:52:05',"é mentira"),
+(4,3,'2022-08-25 16:14:31',"precisamos de mais pessoas assim"),
+(6,2,'2022-12-30 08:17:35',"esse vai para o ceu");
+
+
+CREATE TABLE `curtir` (
     cod_postagem int,
     cod_usuario int,
     dathora_curtir timestamp not null,
@@ -98,7 +123,7 @@ CREATE TABLE curtir (
     FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
 );
 
-INSERT INTO curtir (cod_postagem,cod_usuario,dathora_curtir) VALUES
+INSERT INTO `curtir` (cod_postagem,cod_usuario,dathora_curtir) VALUES
 (5,7,'2022-01-29 17:24:38'),
 (2,8,'2022-04-19 00:00:00'),
 (1,2,'2022-10-28 12:45:31'),
@@ -110,7 +135,7 @@ INSERT INTO curtir (cod_postagem,cod_usuario,dathora_curtir) VALUES
 (8,3,'2022-11-04 11:08:25'),
 (10,1,'2022-09-28 02:52:05');
 
-CREATE TABLE doacao (
+CREATE TABLE `doacao` (
     cod_ong int,
     cod_usuario int,
     dt_doacao date not null,
@@ -119,7 +144,7 @@ CREATE TABLE doacao (
     FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
 );
 
-INSERT INTO doacao (cod_ong,cod_usuario,dt_doacao,valor_doacao) VALUES
+INSERT INTO `doacao` (cod_ong,cod_usuario,dt_doacao,valor_doacao) VALUES
 
 (1,10,'2022-09-28',40.00),
 (2,9,'2022-12-30',90.20),
@@ -132,7 +157,7 @@ INSERT INTO doacao (cod_ong,cod_usuario,dt_doacao,valor_doacao) VALUES
 (9,3,'2022-04-19',47.10),
 (10,1,'2022-05-31',100.00);
 
-CREATE TABLE voluntario (
+CREATE TABLE `voluntario` (
 cod_ong int,
 cod_usuario int,
 dt_voluntario date not null,
@@ -152,4 +177,5 @@ INSERT INTO `voluntario` (cod_ong,cod_usuario, dt_voluntario) VALUES
 (10,3,'2022-05-31'),
 (1,10,'2022-10-28');
 
-ALTER TABLE midia ADD FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem);
+ALTER TABLE `midia` ADD FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem);
+
