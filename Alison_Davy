@@ -1,4 +1,4 @@
-Active: 1661859491233@@127.0.0.1@3306@Alison_Davy_ONG
+-- Active: 1657905411276@@127.0.0.1@3306@Davy_Alison
 
 CREATE TABLE `tipo_usuario` (
     cod_tipuser int auto_increment PRIMARY KEY,
@@ -10,7 +10,7 @@ insert INTO `tipo_usuario` (desc_tipuser) values
 ("proprietario"), 
 ("colaborador");
 
-CREATE TABLE midia (
+CREATE TABLE `midia` (
 titulo_midia varchar(100) not null,
 caminho_midia varchar(250) not null,
 cod_midia int auto_increment PRIMARY KEY,
@@ -50,50 +50,87 @@ insert INTO `usuario` (idade, nome, email, telefone, cod_tipuser) values
 (18, "Aegmiadan", "ziara2905@uorak.com", "(69) 3530-1726", 2),
 (18, "Kaedehara Kazuha", "kazuha16@genshin.com", "(68) 2675-6735", 3),
 (40, "Beelzebul", "shogun raiden@genshin.com", "(97) 3463-5637", 2),
-(23, "Eula Lawrence", "", "", ),
-(52, "", "", "", ),
-(54, "", "", "", ),
-(35, "", "", "", ),
-(75, "", "", "", ),
-(24, "", "", "", ),
-(21, "", "", "", );
+(23, "Eula Lawrence", "eulalaw@gmail.com", "(69) 2172-1076", 3),
+(52, "Maria Cecília Moreira", "teodosio68@uorak.com", "(93) 3310-5868", 1),
+(54, "Vicente Peixoto", "haiou7103@uorak.com", "(79) 3612-0787", 2),
+(35, "Thomas Alves", "toader2757@uorak.com", "(43) 2631-8742", 1),
+(75, "Luiz Henrique Barros", "ambrosia2190@uorak.com", "(24) 2198-8450", 3),
+(24, "Pietra Nunes", "iria2403@uorak.com", "(91) 2914-2618", 1),
+(21, "Vitor Gabriel Cavalcanti", "geny2798@uorak.com", "(47) 2716-8242", 2);
 
-CREATE TABLE postagem (
-titulo_postagem varchar(100) not null,
-categoria varchar(100) not null,
-cod_postagem int auto_increment PRIMARY KEY,
-texto_postagem varchar(1000) not null,
-cod_usuario int,
-cod_ong int,
-FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario),
-FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong)
+CREATE TABLE `postagem` (
+    titulo_postagem varchar(100) not null,
+    categoria varchar(100) not null,
+    cod_postagem int auto_increment PRIMARY KEY,
+    texto_postagem varchar(1000) not null,
+    cod_usuario int,
+    cod_ong int,
+    FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario),
+    FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong)
 );
 
+INSERT INTO `postagem` (titulo_postagem, categoria,     texto_postagem, cod_usuario, cod_ong) VALUES 
+("Ajudar famílias necessitadas","doação","ajude o próximo",2,3),
+("muito gentil","doação","gentileza move o mundo",5,3),
+("adorei","doação","ajude quem precisa como puder",7,9),
+("faça doações","doação","sua doação poder mudar a vida de alguém",1,10),
+("maravilhoso","doação","muito gratificante poder ajudar quem precisa",8,2),
+("incrível","doação","ajude a salvar vidas",4,7),
+("mude o mundo","doação","um pequeno gesto pode gerar um impacto gigante",3,8),
+("junte-se a nós","doação","juntos fazemos a diferença",9,7),
+("legal","doação","vou contribuir em mais ongs",8,5),
+("criança esperança","doação","ajude crianças com câncer",4,10);
+
 CREATE TABLE comenta (
-cod_postagem int,
-cod_usuario int,
-dathora_coment timestamp not null,
-texto_coment varchar(250) not null,
-FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem),
-FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+    cod_postagem int,
+    cod_usuario int,
+    dathora_coment timestamp not null,
+    texto_coment varchar(250) not null,
+    FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem),
+    FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
 );
 
 CREATE TABLE curtir (
-cod_postagem int,
-cod_usuario int,
-dathora_curtir timestamp not null,
-FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem),
-FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+    cod_postagem int,
+    cod_usuario int,
+    dathora_curtir timestamp not null,
+    FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem),
+    FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
 );
 
+INSERT INTO curtir (cod_postagem,cod_usuario,dathora_curtir) VALUES
+(5,7,'2022-01-29 17:24:38'),
+(2,8,'2022-04-19 00:00:00'),
+(1,2,'2022-10-28 12:45:31'),
+(9,9,'2022-05-31 05:52:32'),
+(3,6,'2022-05-26 06:25:56'),
+(4,4,'2022-06-10 15:31:48'),
+(7,5,'2022-08-25 16:14:31'),
+(6,10,'2022-12-30 08:17:35'),
+(8,3,'2022-11-04 11:08:25'),
+(10,1,'2022-09-28 02:52:05');
+
 CREATE TABLE doacao (
-cod_ong int,
-cod_usuario int,
-dt_doacao date not null,
-valor_doacao decimal(10,2) not null,
-FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong),
-FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+    cod_ong int,
+    cod_usuario int,
+    dt_doacao date not null,
+    valor_doacao decimal(10,2) not null,
+    FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong),
+    FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
 );
+
+INSERT INTO doacao (cod_ong,cod_usuario,dt_doacao,valor_doacao) VALUES
+
+(1,10,'2022-09-28',40.00),
+(2,9,'2022-12-30',90.20),
+(3,7,'2022-11-04',200.50),
+(4,8,'2022-06-10',00.50),
+(5,6,'2022-08-25',15.00),
+(6,5,'2022-10-28',900.00),
+(7,4,'2022-05-26',54.00),
+(8,2,'2022-01-29',22.20),
+(9,3,'2022-04-19',47.10),
+(10,1,'2022-05-31',100.00);
 
 CREATE TABLE voluntario (
 cod_ong int,
@@ -102,5 +139,17 @@ dt_voluntario date not null,
 FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong),
 FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
 );
+
+INSERT INTO `voluntario` (cod_ong,cod_usuario, dt_voluntario) VALUES
+(5,7,'2022-11-04'),
+(4,4,'2022-05-26'),
+(2,1,'2022-01-29'),
+(9,2,'2022-12-30'),
+(7,5,'2022-08-25'),
+(8,8,'2022-06-10'),
+(6,9,'2022-04-19'),
+(3,6,'2022-09-28'),
+(10,3,'2022-05-31'),
+(1,10,'2022-10-28');
 
 ALTER TABLE midia ADD FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem);
