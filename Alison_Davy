@@ -1,181 +1,322 @@
--- Active: 1661964820538@@127.0.0.1@3306@Davy_Alison
+-- Geração de Modelo físico
+-- Sql ANSI 2003 - brModelo.
+CREATE DATABASE museu_rafahelo;
+USE museu_rafahelo;
 
-CREATE TABLE `tipo_usuario` (
-    cod_tipuser int auto_increment PRIMARY KEY,
-    desc_tipuser varchar(250) not null
+
+CREATE TABLE autor (
+cod_autor int auto_increment PRIMARY KEY,
+nacionalidade_autor char(3) not null,
+nome_autor varchar(80) not null
 );
+insert INTO `autor` (nacionalidade_autor,nome_autor) VALUES
+('CHI','joao'),
+('ARG','ligia'),
+('HUN','gabriel'),
+('BRA','roberto'),
+('POR','maria'),
+('EUA','alessandra'),
+('BRA','julia'),
+('CHI','roberta'),
+('ARG','caio'),
+('BRA','augusto'),
+('CHI','davi'),
+('ESP','ivo'),
+('ARG','herick'),
+('EUA','gabriele'),
+('EUA','heloisa'),
+('MEX','rafaela'),
+('MEX','leticia'),
+('CHI','mavi'),
+('ARG','marcus'),
+('BRA','pedro');
 
-insert INTO `tipo_usuario` (desc_tipuser) values 
-("cliente"), 
-("proprietario"), 
-("colaborador");
 
-CREATE TABLE `midia` (
-    titulo_midia varchar(100) not null,
-    caminho_midia varchar(250) not null,
-    cod_midia int auto_increment PRIMARY KEY,
-    cod_postagem int
+CREATE TABLE salao (
+cod_salao int auto_increment PRIMARY KEY,
+num_salao int not null,
+andar_museu int not null,
+salao varchar(80) not null
 );
+Insert INTO `salao` (num_salao,andar_museu,salao) VALUES
+(4,1,"joia"),
+(4,3,"pintura"),
+(1,6,"livro"),
+(4,9,"arte"),
+(1,6,"joias"),
+(2,2,"anos90"),
+(6,6,"estatuas"),
+(8,4,"escada"),
+(3,5,"lustre"),
+(8,8,"colar"),
+(4,1,"diario"),
+(1,2,"diamante"),
+(2,1,"brinco"),
+(8,9,"luvas"),
+(3,7,"carros"),
+(4,5,"carruagem"),
+(4,9,"anel"),
+(1,3,"mumia"),
+(7,5,"quadros"),
+(4,5,"pessoas");
 
-INSERT INTO `midia` (titulo_midia,caminho_midia,cod_postagem) VALUES
-("velho","server/banco/fotos.jpg",1),
-("criança","server/banco/fotos.jpg",,4),
-("alimento","server/banco/fotos.jpg",,5),
-("animais","server/banco/fotos.jpg",,2),
-("tartaruga ninja","server/banco/fotos.jpg",3),
-("foto da 2info3","server/banco/fotos.jpg",7),
-("curso","server/banco/fotos.jpg",6),
-("morador de rua","server/banco/fotos.jpg",9),
-("vila do chaves","server/banco/fotos.jpg",8),
-("passaro","server/banco/fotos.jpg",10);
-
-CREATE TABLE `ong` (
-    email_ong varchar(250) not null unique,
-    telefone_ong varchar(14) not null unique,
-    nome_ong varchar(100) not null unique,
-    cod_ong int auto_increment PRIMARY KEY
+CREATE TABLE salao_obra (
+salao_cod_salao int not null,
+obra_cod_obra int not null,
+posicao_salao varchar(80) not null,
+FOREIGN KEY(salao_cod_salao) REFERENCES salao (cod_salao)
 );
+Insert INTO `salao_obra` (salao_cod_salao, obra_cod_obra, posicao_salao) VALUES
+(001,002,"frente"),
+(002,003,"lado"),
+(003,005,"esquerda"),
+(004,008,"direita"),
+(005,003,"frente"),
+(006,007,"lado"),
+(007,003,"esquerda"),
+(008,002,"direita"),
+(009,010,"frente"),
+(010,09,"lado"),
+(011,018,"direita"),
+(012,011,"eaquerda"),
+(013,012,"frente"),
+(014,014,"lado"),
+(015,006,"direita"),
+(016,012,"esquerda"),
+(017,012,"lado"),
+(018,013,"frente"),
+(019,001,"frente"),
+(020,006,"frente");
 
-insert INTO `ong` (email_ong, telefone_ong, nome_ong) VALUES 
-("charki2664@uorak.com", "(16) 2882-7305", "tamar"), 
-("kelli8623@uorak.com", "(93) 2251-8424", "rappy"), 
-("rebeca8161@uorak.com", "(64) 3196-2581", "APAE"), 
-("chantell1822@uorak.com", "(43) 3264-6408", "Vaga Lume"),
-("jafet1287@uorak.com", "(84) 2653-3546", "APABB"),
-("nabeela6509@uorak.com", "(67) 2841-8427", "Bombeiros"),
-("estefana5773@uorak.com", "(98) 2434-0588", "Casa Azul"),
-("kay6389@uorak.com", "(18) 2578-0275", "CIEDS"),
-("hodaifa8455@uorak.com", "(96) 2338-6249", "ADEFIP"),
-("hadiya5634@uorak.com", "(96) 2199-2864", "Casa do Zezinho");
-
-CREATE TABLE `usuario` (
-    idade int not null,
-    nome varchar(250) not null,
-    email varchar(250) not null unique,
-    cod_usuario int auto_increment PRIMARY KEY,
-    telefone varchar(14) not null unique,
-    cod_tipuser int,
-    FOREIGN KEY(cod_tipuser) REFERENCES tipo_usuario (cod_tipuser)
+CREATE TABLE atividade (
+ob_cod_obra int not null,
+func_id_funcionario int not null,
+hora_entrada time not null,
+hora_saida time not null,
+data_atividade date not null
 );
+insert INTO `atividade` (ob_cod_obra,func_id_funcionario,hora_entrada,hora_saida,data_atividade) VALUES
+(001,001,'10:29:28','21:24:38','2021-03-24'),
+(002,002,'14:25:28','22:34:37','2022-09-28'),
+(003,003,'13:24:38','23:34:31','2022-04-24'),
+(004,004,'10:34:38','21:14:32','2022-05-25'),
+(005,005,'11:40:49','20:34:28','2022-06-23'),
+(006,006,'18:24:56','00:32:16','2022-02-22'),
+(007,007,'17:14:39','12:22:49','2022-07-28'),
+(008,008,'07:24:38','21:20:18','2022-08-28'),
+(010,009,'00:24:38','08:21:08','2022-10-28'),
+(011,010,'1:24:38','21:24:38','2022-09-29'),
+(001,011,'10:04:08','24:14:57','2022-09-28'),
+(042,012,'17:24:38','00:00:00','2022-09-12'),
+(045,013,'19:29:39','21:27:34','2022-11-15'),
+(087,014,'01:36:37','01:18:34','2022-11-14'),
+(091,015,'17:28:38','06:14:35','2022-09-18'),
+(057,016,'18:31:38','22:21:8','2012-12-10'),
+(057,017,'16:45:38','23:24:00','2022-07-31'),
+(035,018,'17:55:38','24:33:08','2022-09-30'),
+(025,019,'15:20:38','11:54:38','2022-09-12'),
+(016,020,'12:34:43','15:34:38','2020-12-22');
 
-insert INTO `usuario` (idade, nome, email, telefone, cod_tipuser) values 
-(18, "Aegmiadan", "ziara2905@uorak.com", "(69) 3530-1726", 2),
-(18, "Kaedehara Kazuha", "kazuha16@genshin.com", "(68) 2675-6735", 3),
-(40, "Beelzebul", "shogun raiden@genshin.com", "(97) 3463-5637", 2),
-(23, "Eula Lawrence", "eulalaw@gmail.com", "(69) 2172-1076", 3),
-(52, "Maria Cecília Moreira", "teodosio68@uorak.com", "(93) 3310-5868", 1),
-(54, "Vicente Peixoto", "haiou7103@uorak.com", "(79) 3612-0787", 2),
-(35, "Thomas Alves", "toader2757@uorak.com", "(43) 2631-8742", 1),
-(75, "Luiz Henrique Barros", "ambrosia2190@uorak.com", "(24) 2198-8450", 3),
-(24, "Pietra Nunes", "iria2403@uorak.com", "(91) 2914-2618", 1),
-(21, "Vitor Gabriel Cavalcanti", "geny2798@uorak.com", "(47) 2716-8242", 2);
-
-CREATE TABLE `postagem` (
-    titulo_postagem varchar(100) not null,
-    categoria varchar(100) not null,
-    cod_postagem int auto_increment PRIMARY KEY,
-    texto_postagem varchar(1000) not null,
-    cod_usuario int,
-    cod_ong int,
-    FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario),
-    FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong)
+CREATE TABLE tipo_funcionario (
+cod_tipo_funcionario int auto_increment PRIMARY KEY,
+tipo_funcionario varchar(80) not null
 );
+Insert INTO`tipo_funcionario`(tipo_funcionario) VALUES
+("Guarda"),
+("Restauradores"),
+("Operário de limpeza");
 
-INSERT INTO `postagem` (titulo_postagem, categoria,     texto_postagem, cod_usuario, cod_ong) VALUES 
-("Ajudar famílias necessitadas","doação","ajude o próximo",2,3),
-("muito gentil","doação","gentileza move o mundo",5,3),
-("adorei","doação","ajude quem precisa como puder",7,9),
-("faça doações","doação","sua doação poder mudar a vida de alguém",1,10),
-("maravilhoso","doação","muito gratificante poder ajudar quem precisa",8,2),
-("incrível","doação","ajude a salvar vidas",4,7),
-("mude o mundo","doação","um pequeno gesto pode gerar um impacto gigante",3,8),
-("junte-se a nós","doação","juntos fazemos a diferença",9,7),
-("legal","doação","vou contribuir em mais ongs",8,5),
-("criança esperança","doação","ajude crianças com câncer",4,10);
-
-CREATE TABLE `comenta` (
-    cod_postagem int,
-    cod_usuario int,
-    dathora_coment timestamp not null,
-    texto_coment varchar(250) not null,
-    FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem),
-    FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+CREATE TABLE materia_prima (
+cod_mat_prima int auto_increment PRIMARY KEY,
+qtd_est_mat int not null,
+nome_mat_prima varchar(80) not null
 );
+Insert INTO `materia_prima`(qtd_est_mat,nome_mat_prima) VALUES 
+(2,'argila'),
+(122,'madeira'),
+(111,'pincéis'),
+(234,'lapis'),
+(44,'ferro'),
+(11,'arame'),
+(22,'argamassa'),
+(12,'gesso'),
+(1111,'tinta azul'),
+(209,'tinta branca'),
+(23,'quadros'),
+(213,'folhas'),
+(22,'canetas'),
+(23,'penas'),
+(77,'glitter'),
+(90,'purpurina'),
+(80,'lantejola'),
+(111,'perolas'),
+(456,'vidro'), 
+(226,'tecido');
 
-INSERT INTO `comenta`(cod_postagem,cod_usuario,dathora_coment,texto_coment) VALUES
-(2,8,'2022-10-28 12:45:31',"bom"),
-(3,5,'2022-04-19 00:00:00',"legal"),
-(1,10,'2022-01-29 17:24:38',"ajudo muito"),
-(5,9,'2022-05-31 05:52:32',"adorei"),
-(7,6,'2022-05-26 06:25:56',"gente fina"),
-(8,7,'2022-06-10 15:31:48',"vou doar"),
-(9,1,'2022-11-04 11:08:25',"sera verdade?"),
-(10,4,'2022-09-28 02:52:05',"é mentira"),
-(4,3,'2022-08-25 16:14:31',"precisamos de mais pessoas assim"),
-(6,2,'2022-12-30 08:17:35',"esse vai para o ceu");
-
-
-CREATE TABLE `curtir` (
-    cod_postagem int,
-    cod_usuario int,
-    dathora_curtir timestamp not null,
-    FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem),
-    FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+CREATE TABLE funcionario (
+id_funcionario int auto_increment PRIMARY KEY,
+nome_funcionario varchar(80) not null,
+salario_funcionario decimal(10,2) not null,
+cpf_funcionario varchar(14) not null unique,
+cod_tipo_funcionario int not null,
+FOREIGN KEY(cod_tipo_funcionario) REFERENCES tipo_funcionario (cod_tipo_funcionario)
 );
+insert INTO `funcionario` ( nome_funcionario, salario_funcionario,cpf_funcionario,cod_tipo_funcionario) VALUES
+("Luana",1820.20,"111.222.444-34",001),
+("Lara",2820.20,"111.333.444-34",002),
+("Lina",3280.20,"181.222.444-53",001),
+("Ana",4270.20,"111.292.499-34",001),
+("Maria",5280.20,"881.222.484-38",003),
+("bianca",6270.20,"111.292.444-94",002),
+("Sara",720.20,"151.225.454-34",001),
+("Sarah",820.20,"111.222.443-34",002),
+("luli",920.20,"111.282.444-34",002),
+("Bianca",9280.20,"111.485.444-34",001),
+("Larisa",1420.20,"278.222.484-34",001),
+("Larissa",1290.20,"111.222.276-34",003),
+("Lana",1280.20,"111.202.444-90",002),
+("Lua",1980.20,"131.232.444-34",001),
+("Lana",1234.20,"911.222.146-34",001),
+("bibi",1240.20,"111.152.444-34",003),
+("Leo",1230.20,"981.222.444-34",002),
+("Luan",1260.20,"111.202.874-11",001),
+("Gigi",1250.20,"111.872.444-34",001),
+("Vinicius",1420.20,"111.098.444-34",001);
 
-INSERT INTO `curtir` (cod_postagem,cod_usuario,dathora_curtir) VALUES
-(5,7,'2022-01-29 17:24:38'),
-(2,8,'2022-04-19 00:00:00'),
-(1,2,'2022-10-28 12:45:31'),
-(9,9,'2022-05-31 05:52:32'),
-(3,6,'2022-05-26 06:25:56'),
-(4,4,'2022-06-10 15:31:48'),
-(7,5,'2022-08-25 16:14:31'),
-(6,10,'2022-12-30 08:17:35'),
-(8,3,'2022-11-04 11:08:25'),
-(10,1,'2022-09-28 02:52:05');
+delete from funcionario;
 
-CREATE TABLE `doacao` (
-    cod_ong int,
-    cod_usuario int,
-    dt_doacao date not null,
-    valor_doacao decimal(10,2) not null,
-    FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong),
-    FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+CREATE TABLE manutencao (
+mnt_obra int auto_increment PRIMARY KEY,
+data_termi_mnt date not null,
+custo_mnt decimal(10,2) not null,
+data_ini_mnt date not null,
+desc_mnt varchar(80) not null,
+cod_obra int not null,
+func_id_funcionario int not null,
+FOREIGN KEY(func_id_funcionario) REFERENCES funcionario (id_funcionario)
 );
+insert INTO `manutencao` (data_termi_mnt, custo_mnt, data_ini_mnt, desc_mnt, cod_obra, func_id_funcionario) VALUES 
+('2022-10-30',30.30,'2022-01-02','portas',65,001),
+('2022-11-20',20.30,'2022-02-02','quadros',66,002),
+('2022-12-30',122.30,'2022-09-02','dispensers',67,003),
+('2022-12-31',34.45,'2021-01-02','galerias',68,001),
+('2022-10-24',30.50,'2022-01-03','aluminio',69,002),
+('2022-05-20',30.30,'2022-01-06','portas',70,003),
+('2022-12-30',930.30,'2022-11-12','ceramicas',71,001),
+('2022-12-30',30.30,'2022-01-02','retratos',72,002),
+('2021-10-10',50.30,'2021-01-08','esposições',73,003),
+('2021-10-30',60.30,'2021-01-02','portas',74,001),
+('2022-10-12',310.20,'2022-02-02','janelas',75,002),
+('2022-11-10',1000.30,'2022-11-02','cortinas',76,003),
+('2022-10-30',30.20,'2022-03-22','metais',77,001),
+('2022-07-30',390.30,'2021-01-02','estantes',78,002),
+('2022-08-30',50.50,'2022-01-05','luzes',79,003),
+('2022-11-30',30.20,'2022-11-02','pisos',80,001),
+('2022-01-30',30.30,'2022-01-02','holofotes',81,002),
+('2022-10-30',36.30,'2022-01-02','portas',82,001),
+('2022-10-30',30.30,'2022-02-02','retratos',83,002),
+('2022-10-30',30.30,'2021-03-02','portas',84,001);
 
-INSERT INTO `doacao` (cod_ong,cod_usuario,dt_doacao,valor_doacao) VALUES
+delete from manutencao;
 
-(1,10,'2022-09-28',40.00),
-(2,9,'2022-12-30',90.20),
-(3,7,'2022-11-04',200.50),
-(4,8,'2022-06-10',00.50),
-(5,6,'2022-08-25',15.00),
-(6,5,'2022-10-28',900.00),
-(7,4,'2022-05-26',54.00),
-(8,2,'2022-01-29',22.20),
-(9,3,'2022-04-19',47.10),
-(10,1,'2022-05-31',100.00);
+select * from manutencao;
+select * from funcionario;
 
-CREATE TABLE `voluntario` (
-cod_ong int,
-cod_usuario int,
-dt_voluntario date not null,
-FOREIGN KEY(cod_ong) REFERENCES ong (cod_ong),
-FOREIGN KEY(cod_usuario) REFERENCES usuario (cod_usuario)
+CREATE TABLE obra (
+cod_obra int auto_increment PRIMARY KEY,
+ano_obra year not null,
+titu_obra varchar(80) not null unique,
+peso_obra decimal(10,2) null,
+material_obra varchar(80) null,
+desc_estilo_obra varchar(80) null,
+cod_autor int not null,
+cod_tipo_obra int not null,
+FOREIGN KEY(cod_autor) REFERENCES autor (cod_autor)
 );
+Insert INTO `obra` ( ano_obra, titu_obra, peso_obra, material_obra, desc_estilo_obra,cod_autor,cod_tipo_obra ) VALUES 
+('2019','Mona Lisa',10,'madeira','desc1',20,001),
+('2020','Guernica',20,'pincel','desc2',10,002),
+('2020','O beijo',10,'argila','desc3',20,003),
+('2020','O grito',20,'escada','desc4',10,004),
+('2019','N° 5',10,'caneta','desc5',20,005),
+('2020','As meninas',30,'penas','desc6',10,006),
+('2015','Os Comedores de batata',10,'vidro','desc7',20,007),
+('2017','A persistência de memórias',20,'pérolas','desc8',10,008),
+('2010','Impressão, sol nascente',40,'tecidos','desc9',20,009),
+('2009','Os Fuzilamentos de Três de Maio',10,'obras','desc10',10,010),
+('2005','A moça com brinco de pérolas',30,'quadros','desc11',12,011),
+('2019','O almoço dos barqueiros',40,'folhas','desc12',13,012),
+('2019','Hospital de henry ford',20,'ferro','desc13',12,013),
+('2022','os retirantes',70,'arame','desc14',17,014),
+('2012','Abaporu',17,'tinta azul','desc15',10,015),
+('2009','A ronda noturna',10,'argamassa','desc16',10,016),
+('2003','A noite estrelada',20,'gesso','desc17',11,017),
+('2019','Nu descendo uma escada',60,'tinta branca','desc18',10,018),
+('2002','O trabalho de uma imagem',10,'gliter','des19',17,019),
+('2016','As duas fridas',50,'porpurina','desc20',10,020);
 
-INSERT INTO `voluntario` (cod_ong,cod_usuario, dt_voluntario) VALUES
-(5,7,'2022-11-04'),
-(4,4,'2022-05-26'),
-(2,1,'2022-01-29'),
-(9,2,'2022-12-30'),
-(7,5,'2022-08-25'),
-(8,8,'2022-06-10'),
-(6,9,'2022-04-19'),
-(3,6,'2022-09-28'),
-(10,3,'2022-05-31'),
-(1,10,'2022-10-28');
+delete from obra;
 
-ALTER TABLE `midia` ADD FOREIGN KEY(cod_postagem) REFERENCES postagem (cod_postagem);
 
+CREATE TABLE tipo_obra (
+cod_tipo_obra int auto_increment PRIMARY KEY,
+desc_tipo_obra varchar(480) not null
+);
+insert INTO `tipo_obra` (desc_tipo_obra) VALUES 
+('Iracema, 1909 – Antônio Parreirases'),
+('Pobre Pescador, 1896 – Paul Gauguin.'),
+('Nu feminino Sentado - Abel-Dominique Boyé'),
+('Mona Lisa, ou La Gioconda'),
+('A escultura Vitória da Samotrácia foi esculpida em mármore branco.'),
+('A escultura é uma das mais significativas do período helenístico.'),
+('Seu autor foi um escultor grego.'),
+('A Liberdade Guiando o Povo.'),
+('A obra retrata a revolta ocorrida na França.'),
+('A escultura da Vênus de Milo.'),
+('A estátua foi produzida em dois blocos de mármore.'),
+('O quadro Bodas de Caná é o maior do Museu do Louvre.'),
+('O quadro retrata cenas bíblicas e cenas do cotidiano da Veneza do século XVI.'),
+('Escultura em mármore realizada pelo italiano Antônio Canova.'),
+('A escultura transmite simplicidade e beleza.'),
+('Essa impressionante escultura em mármore foi esculpida por Michelangelo.'),
+('A escultura expressa os detalhes anatômicos com a máxima perfeição.'),
+('A Esfinge de Tanis foi descoberta em 1825 na cidade de Tanis.'),
+('O rei Hamurabi criou esse código na Mesopotâmia.'),
+('São 282 artigos de direito.');
+
+CREATE TABLE manu_mat (
+Campo_1 int not null,
+Campo_2 int not null,
+qtd_mat_mnt varchar(15) not null,
+FOREIGN KEY(Campo_1) REFERENCES manutencao (mnt_obra),
+FOREIGN KEY(Campo_2) REFERENCES materia_prima (cod_mat_prima)
+);
+Insert INTO `manu_mat` (Campo_1, Campo_2, qtd_mat_mnt) VALUES
+(1,2,211),
+(1,2,200),
+(1,2,300),
+(1,2,350),
+(1,2,220),
+(1,2,300),
+(1,2,200),
+(1,2,430),
+(1,2,450),
+(1,2,222),
+(1,2,400),
+(1,2,500),
+(1,2,300),
+(1,2,200),
+(1,2,250),
+(1,2,211),
+(1,2,271),
+(1,2,200),
+(1,2,400),
+(1,2,500);
+
+explain table manu_mat;
+
+ALTER TABLE salao_obra ADD FOREIGN KEY(obra_cod_obra) REFERENCES obra (cod_obra);
+ALTER TABLE atividade ADD FOREIGN KEY(ob_cod_obra) REFERENCES obra (cod_obra);
+ALTER TABLE atividade ADD FOREIGN KEY(func_id_funcionario) REFERENCES funcionario (id_funcionario);
+ALTER TABLE manutencao ADD FOREIGN KEY(cod_obra) REFERENCES obra (cod_obra);
+ALTER TABLE obra ADD FOREIGN KEY(cod_tipo_obra) REFERENCES tipo_obra (cod_tipo_obra);
